@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alfonso Navío Castellano — Java Developer</title>
+<meta name="description" content="Alfonso Navío Castellano — Java Developer especializado en Android y Microservicios. Experiencia en fintech y terminales de pago.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Fira+Code:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0b0b0e;
+  --surface: #111116;
+  --surface2: #18181f;
+  --accent: #c9963a;
+  --accent-dim: #7a5a20;
+  --accent-glow: rgba(201,150,58,0.08);
+  --text: #e2dbd0;
+  --muted: #64605a;
+  --muted2: #908b84;
+  --border: rgba(201,150,58,0.12);
+  --border-soft: rgba(255,255,255,0.055);
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-mono: 'Fira Code', monospace;
+  --font-sans: 'DM Sans', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-sans); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+::selection { background: var(--accent); color: #0b0b0e; }
+a { color: inherit; }
+img { max-width: 100%; display: block; }
+
+/* NOISE */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-size: 180px;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.2rem 3rem;
+  transition: background 0.35s, border-color 0.35s;
+  border-bottom: 1px solid transparent;
+}
+nav.scrolled { background: rgba(11,11,14,0.9); backdrop-filter: blur(16px); border-color: var(--border-soft); }
+.nav-logo { font-family: var(--font-mono); font-size: 0.82rem; color: var(--accent); text-decoration: none; letter-spacing: 0.03em; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted2); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.25s; }
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { width: 100%; }
+.nav-cta { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); border: 1px solid var(--accent); padding: 0.4rem 1rem; text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: background 0.2s, color 0.2s; }
+.nav-cta:hover { background: var(--accent); color: #0b0b0e; }
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 9rem 3rem 5rem;
+  position: relative; overflow: hidden;
+}
+.hero-deco-v { position: absolute; top: 0; width: 1px; height: 100%; background: linear-gradient(to bottom, transparent, var(--border-soft) 25%, var(--border-soft) 75%, transparent); }
+.hero-deco-v:nth-child(1) { right: 20%; }
+.hero-deco-v:nth-child(2) { right: 45%; opacity: 0.4; }
+.hero-ring { position: absolute; border-radius: 50%; border: 1px solid var(--border); }
+.hero-ring-1 { width: 600px; height: 600px; right: -200px; top: 50%; transform: translateY(-50%); opacity: 0.35; }
+.hero-ring-2 { width: 380px; height: 380px; right: -60px; top: 50%; transform: translateY(-50%); opacity: 0.5; border-color: rgba(201,150,58,0.2); }
+.hero-ring-3 { width: 160px; height: 160px; right: 130px; top: 50%; transform: translateY(-50%); opacity: 0.3; }
+
+.hero-eyebrow {
+  font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.7s ease both;
+}
+.hero-eyebrow::before { content: ''; display: block; width: 2rem; height: 1px; background: var(--accent); }
+
+.hero-name {
+  font-family: var(--font-serif);
+  font-size: clamp(3.8rem, 7.5vw, 7rem);
+  font-weight: 600; line-height: 0.95;
+  letter-spacing: -0.025em;
+  animation: fadeUp 0.7s 0.12s ease both;
+}
+.hero-name .line2 { color: var(--accent); font-style: italic; }
+
+.hero-role {
+  margin-top: 1.75rem;
+  display: flex; align-items: center; gap: 0.6rem;
+  font-family: var(--font-mono); font-size: 0.92rem; color: var(--muted2);
+  animation: fadeUp 0.7s 0.24s ease both;
+}
+.cursor-blink { display: inline-block; width: 2px; height: 1em; background: var(--accent); animation: blink 1s step-end infinite; vertical-align: middle; }
+
+.hero-bio {
+  max-width: 500px; margin-top: 2rem;
+  font-size: 1rem; color: var(--muted2); line-height: 1.85;
+  animation: fadeUp 0.7s 0.36s ease both;
+}
+.hero-bio strong { color: var(--text); font-weight: 400; }
+
+.hero-btns {
+  display: flex; gap: 1rem; margin-top: 3rem; flex-wrap: wrap;
+  animation: fadeUp 0.7s 0.48s ease both;
+}
+.btn-fill { padding: 0.9rem 2.2rem; background: var(--accent); color: #0b0b0e; font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; transition: background 0.2s, transform 0.15s; border: 1px solid var(--accent); }
+.btn-fill:hover { background: #e8b04a; transform: translateY(-1px); }
+.btn-outline { padding: 0.9rem 2.2rem; background: transparent; color: var(--muted2); font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--border-soft); transition: color 0.2s, border-color 0.2s; }
+.btn-outline:hover { color: var(--text); border-color: var(--muted); }
+
+.hero-stats {
+  display: flex; gap: 3rem; margin-top: 4rem;
+  animation: fadeUp 0.7s 0.6s ease both;
+}
+.hstat-num { font-family: var(--font-serif); font-size: 2.2rem; font-weight: 600; color: var(--accent); line-height: 1; }
+.hstat-label { font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.3rem; }
+
+.scroll-hint {
+  position: absolute; bottom: 2.5rem; left: 3rem;
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  animation: fadeUp 0.7s 0.9s ease both;
+}
+.scroll-hint span { font-family: var(--font-mono); font-size: 0.62rem; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; }
+.scroll-line { width: 1px; height: 3rem; background: linear-gradient(to bottom, var(--accent), transparent); animation: scrollAnim 2s ease-in-out infinite; }
+
+/* ─── SHARED SECTION STYLES ─── */
+.s-label { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.18em; text-transform: uppercase; display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.6rem; }
+.s-label::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--accent); }
+.s-title { font-family: var(--font-serif); font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 600; line-height: 1.1; }
+.s-title em { font-style: italic; color: var(--accent); }
+
+.section-wrap { padding: 6rem 3rem; max-width: 1140px; margin: 0 auto; }
+.section-full { padding: 6rem 3rem; }
+.section-full .inner { max-width: 1140px; margin: 0 auto; }
+
+/* ─── ABOUT ─── */
+#about { background: var(--surface); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
+.about-grid { display: grid; grid-template-columns: 1fr 420px; gap: 5rem; align-items: start; }
+.about-lead { font-size: 1.2rem; color: var(--text); font-weight: 400; margin-bottom: 1.25rem; line-height: 1.65; }
+.about-body p { color: var(--muted2); font-size: 0.96rem; margin-bottom: 1rem; line-height: 1.85; }
+.about-body strong { color: var(--text); font-weight: 400; }
+.about-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+.chip { font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent); border: 1px solid var(--border); padding: 0.25rem 0.7rem; letter-spacing: 0.05em; }
+
+.about-panel { display: flex; flex-direction: column; gap: 1.25rem; }
+.panel-block { padding: 1.5rem; border: 1px solid var(--border-soft); border-left: 2px solid var(--accent); background: var(--surface2); }
+.panel-block-title { font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.75rem; }
+.panel-block p { font-size: 0.9rem; color: var(--muted2); line-height: 1.75; }
+.panel-block p strong { color: var(--text); font-weight: 400; }
+
+/* ─── EXPERIENCE ─── */
+#experience { }
+.exp-list { display: flex; flex-direction: column; gap: 0; position: relative; }
+.exp-list::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--border-soft); }
+.exp-item { display: grid; grid-template-columns: 200px 1fr; gap: 3rem; padding: 2.5rem 0 2.5rem 2.5rem; position: relative; border-bottom: 1px solid var(--border-soft); }
+.exp-item:last-child { border-bottom: none; }
+.exp-item::before { content: ''; position: absolute; left: -4px; top: 2.9rem; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--bg), 0 0 0 4px var(--accent-dim); }
+.exp-date { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; line-height: 1.6; padding-top: 0.2rem; }
+.exp-date .exp-period { color: var(--accent-dim); display: block; margin-top: 0.2rem; }
+.exp-content { }
+.exp-role { font-family: var(--font-serif); font-size: 1.45rem; font-weight: 600; color: var(--text); line-height: 1.2; margin-bottom: 0.2rem; }
+.exp-company { font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent); letter-spacing: 0.05em; margin-bottom: 1rem; }
+.exp-desc { font-size: 0.93rem; color: var(--muted2); line-height: 1.85; margin-bottom: 1.25rem; }
+.exp-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.exp-tag { font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted2); border: 1px solid var(--border-soft); padding: 0.18rem 0.6rem; letter-spacing: 0.04em; }
+
+/* ─── SKILLS ─── */
+#skills { background: var(--surface); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
+.skills-header { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-bottom: 3.5rem; align-items: end; }
+.skills-intro-text { font-size: 0.95rem; color: var(--muted2); line-height: 1.85; }
+.skills-intro-text strong { color: var(--text); font-weight: 400; }
+
+.skills-categories { display: flex; flex-direction: column; gap: 2.5rem; }
+.skill-category-label { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--border-soft); }
+.skills-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1px; background: var(--border-soft); }
+.skill-card { background: var(--bg); padding: 1.5rem 1.25rem; position: relative; overflow: hidden; transition: background 0.2s; }
+.skill-card:hover { background: var(--surface2); }
+.skill-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
+.skill-card:hover::after { transform: scaleX(1); }
+.skill-name { font-size: 1rem; font-weight: 400; color: var(--text); margin-bottom: 0.3rem; }
+.skill-sub { font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted); line-height: 1.6; }
+.skill-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: 0.8rem; }
+.skill-dot.dim { background: var(--accent-dim); }
+.skill-dot.muted { background: var(--muted); }
+.skill-level-row { display: flex; gap: 3px; margin-top: 0.8rem; }
+.skill-pip { width: 20px; height: 2px; background: var(--border-soft); }
+.skill-pip.filled { background: var(--accent); }
+.skill-pip.half { background: var(--accent-dim); }
+
+/* ─── PROJECTS ─── */
+#projects { }
+.projects-header-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
+.projects-note { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; }
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 1.5rem; }
+.proj-card { background: var(--surface); border: 1px solid var(--border-soft); padding: 2rem; transition: border-color 0.25s, transform 0.25s; position: relative; overflow: hidden; }
+.proj-card:hover { border-color: var(--accent-dim); transform: translateY(-3px); }
+.proj-card::before { content: ''; position: absolute; inset: 0; background: var(--accent-glow); opacity: 0; transition: opacity 0.3s; }
+.proj-card:hover::before { opacity: 1; }
+.proj-num { font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-dim); letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+.proj-title { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 600; color: var(--text); line-height: 1.25; margin-bottom: 0.75rem; }
+.proj-desc { font-size: 0.9rem; color: var(--muted2); line-height: 1.8; margin-bottom: 1.5rem; }
+.proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+.proj-tag { font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent); border: 1px solid var(--border); padding: 0.18rem 0.55rem; }
+.proj-links { display: flex; gap: 1rem; }
+.proj-link { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted2); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; display: inline-flex; align-items: center; gap: 0.35rem; }
+.proj-link:hover { color: var(--accent); }
+.proj-arrow { transition: transform 0.2s; }
+.proj-link:hover .proj-arrow { transform: translate(2px, -2px); }
+
+.proj-card.empty { border-style: dashed; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 240px; text-align: center; background: transparent; }
+.proj-card.empty:hover { transform: none; border-color: var(--accent-dim); background: var(--accent-glow); }
+.proj-card.empty::before { display: none; }
+.empty-plus { font-size: 1.5rem; color: var(--muted); margin-bottom: 0.75rem; line-height: 1; }
+.empty-label { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.08em; }
+.empty-sub { font-size: 0.82rem; color: var(--muted); margin-top: 0.4rem; opacity: 0.6; }
+
+/* ─── EDUCATION ─── */
+#education { background: var(--surface); border-top: 1px solid var(--border-soft); }
+.edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2.5rem; }
+.edu-card { padding: 2rem; border: 1px solid var(--border-soft); border-top: 2px solid var(--accent); background: var(--surface2); }
+.edu-year { font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem; }
+.edu-degree { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 0.35rem; }
+.edu-center { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted2); margin-bottom: 0.75rem; }
+.edu-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.75; }
+
+/* ─── CONTACT ─── */
+#contact { }
+.contact-wrap { max-width: 700px; margin: 0 auto; text-align: center; }
+.contact-tagline { font-family: var(--font-serif); font-size: clamp(1.5rem, 3vw, 2.2rem); font-style: italic; color: var(--text); margin: 1.5rem 0; line-height: 1.4; }
+.contact-email-link { display: inline-block; font-family: var(--font-serif); font-size: clamp(1.3rem, 2.5vw, 2rem); font-style: italic; color: var(--accent); text-decoration: none; margin: 1.5rem 0 2.5rem; transition: opacity 0.2s; }
+.contact-email-link:hover { opacity: 0.75; }
+.contact-desc { font-size: 0.96rem; color: var(--muted2); line-height: 1.85; margin-bottom: 3rem; }
+.socials { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; }
+.soc-link { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted2); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 0.5rem; transition: color 0.2s; }
+.soc-link:hover { color: var(--accent); }
+
+/* ─── FOOTER ─── */
+footer { padding: 1.75rem 3rem; border-top: 1px solid var(--border-soft); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+.footer-mono { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); letter-spacing: 0.05em; }
+.footer-mono .acc { color: var(--accent); }
+
+/* ─── REVEAL ─── */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes scrollAnim { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  #hero, .section-wrap, .section-full { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-panel { display: none; }
+  .skills-header { grid-template-columns: 1fr; gap: 1.5rem; }
+  .exp-item { grid-template-columns: 1fr; gap: 0.5rem; padding-left: 1.75rem; }
+  .exp-date { font-size: 0.68rem; }
+  .edu-grid { grid-template-columns: 1fr; }
+  .projects-header-row { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .hero-stats { gap: 1.75rem; }
+  footer { padding: 1.5rem; }
+  .hero-ring-1, .hero-ring-2, .hero-ring-3, .hero-deco-v { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">// alfonso.navío</a>
+  <ul class="nav-links">
+    <li><a href="#about-section">Sobre mí</a></li>
+    <li><a href="#experience-section">Experiencia</a></li>
+    <li><a href="#skills-section">Skills</a></li>
+    <li><a href="#projects-section">Proyectos</a></li>
+    <li><a href="#contact-section">Contacto</a></li>
+  </ul>
+  <a href="#contact-section" class="nav-cta">Contrátame</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-deco-v"></div>
+  <div class="hero-deco-v"></div>
+  <div class="hero-ring hero-ring-1"></div>
+  <div class="hero-ring hero-ring-2"></div>
+  <div class="hero-ring hero-ring-3"></div>
+
+  <div class="hero-eyebrow">Java Developer · Jaén, España</div>
+  <h1 class="hero-name">
+    Alfonso<br>
+    <span class="line2">Navío</span> Castellano
+  </h1>
+  <div class="hero-role">
+    <span id="typed"></span>
+    <span class="cursor-blink"></span>
+  </div>
+  <p class="hero-bio">
+    Especializado en <strong>desarrollo Android con Java</strong> y con experiencia real en el sector <strong>fintech</strong>. Actualmente expandiéndome hacia <strong>microservicios y backend Java</strong> con Spring Boot.
+  </p>
+  <div class="hero-btns">
+    <a href="#projects-section" class="btn-fill">Ver proyectos</a>
+    <a href="#contact-section" class="btn-outline">Hablemos</a>
+    <a href="CV_Alfonso_Navio.pdf" class="btn-outline" download>Descargar CV</a>
+  </div>
+
+  <div class="hero-stats">
+    <div>
+      <div class="hstat-num">2+</div>
+      <div class="hstat-label">años en fintech</div>
+    </div>
+    <div>
+      <div class="hstat-num">Java</div>
+      <div class="hstat-label">especialidad</div>
+    </div>
+    <div>
+      <div class="hstat-num">DAM</div>
+      <div class="hstat-label">FP Superior</div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about-section">
+  <div id="about" class="section-full">
+    <div class="inner">
+      <div class="about-grid">
+        <div class="about-body">
+          <div class="s-label reveal">Sobre mí</div>
+          <h2 class="s-title reveal">Código que funciona<br>en el <em>mundo real</em></h2>
+          <p class="about-lead reveal" style="margin-top: 1.5rem;">
+            Técnico Superior en Desarrollo de Aplicaciones Multiplataforma con experiencia profesional en un entorno donde los fallos tienen consecuencias reales: el procesamiento de pagos.
+          </p>
+          <p class="reveal">
+            Trabajo desarrollando aplicaciones Android en Java para <strong>terminales de pago</strong>, un contexto donde la seguridad, la estabilidad y el rendimiento son exigencias, no opciones. También he desarrollado <strong>APIs y soluciones de integración</strong> para estos sistemas.
+          </p>
+          <p class="reveal">
+            Ahora estoy ampliando mi perfil hacia <strong>microservicios con Java y Spring Boot</strong>, el camino natural desde mi experiencia en APIs y sistemas distribuidos. Mi objetivo es construir un perfil sólido que combine el desarrollo móvil Android con el backend empresarial.
+          </p>
+          <p class="reveal">
+            Cuando no codifico, estoy aprendiendo. La tecnología no para, y yo tampoco.
+          </p>
+          <div class="about-chips reveal">
+            <span class="chip">Fintech</span>
+            <span class="chip">Terminales de pago</span>
+            <span class="chip">Android SDK</span>
+            <span class="chip">APIs REST</span>
+            <span class="chip">Microservicios</span>
+            <span class="chip">Bases de datos</span>
+          </div>
+        </div>
+
+        <div class="about-panel">
+          <div class="panel-block reveal">
+            <div class="panel-block-title">Perfil profesional</div>
+            <p>Java developer con 2 años de experiencia en el sector fintech. Especialista en Android, con creciente expertise en arquitecturas backend y microservicios.</p>
+          </div>
+          <div class="panel-block reveal">
+            <div class="panel-block-title">Lo que me diferencia</div>
+            <p>Experiencia real en un entorno de <strong>alta exigencia técnica</strong>. Los sistemas de pago no admiten errores: eso forma una mentalidad de calidad que aplico a todos mis proyectos.</p>
+          </div>
+          <div class="panel-block reveal">
+            <div class="panel-block-title">Objetivo actual</div>
+            <p>Consolidar mi perfil como <strong>Java developer full-stack</strong> (Android + microservicios Spring Boot), con especial interés en empresas del sector fintech, banca o software empresarial.</p>
+          </div>
+          <div class="panel-block reveal">
+            <div class="panel-block-title">Ubicación</div>
+            <p>Jaén, Andalucía. <strong>Disponible para trabajo remoto</strong> y abierto a reubicación según el proyecto.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience-section">
+  <div class="section-wrap">
+    <div class="s-label reveal">Experiencia</div>
+    <h2 class="s-title reveal">Trayectoria <em>profesional</em></h2>
+
+    <div class="exp-list" style="margin-top: 3rem;">
+
+      <div class="exp-item reveal">
+        <div class="exp-date">
+          Empresa actual
+          <span class="exp-period">2023 — Presente</span>
+          <span class="exp-period" style="color: var(--accent); margin-top: 0.5rem;">· 2 años</span>
+        </div>
+        <div class="exp-content">
+          <div class="exp-role">Desarrollador Android & Backend</div>
+          <div class="exp-company"><!-- Nombre de la empresa --> Empresa (sector fintech)</div>
+          <p class="exp-desc">
+            Desarrollo y mantenimiento de aplicaciones Android en Java para terminales de pago. Implementación de flujos de transacción, integración con sistemas de pago externos y desarrollo de APIs internas para comunicación entre dispositivos y plataformas. Trabajo en un entorno donde la seguridad y la estabilidad del código son críticas.
+          </p>
+          <p class="exp-desc" style="margin-top: -0.5rem;">
+            Responsable también del desarrollo de APIs REST y otros componentes de integración para los terminales, lo que me ha dado una visión completa del ecosistema: desde el dispositivo hasta el servidor.
+          </p>
+          <div class="exp-tags">
+            <span class="exp-tag">Java</span>
+            <span class="exp-tag">Android SDK</span>
+            <span class="exp-tag">APIs REST</span>
+            <span class="exp-tag">Terminales de pago</span>
+            <span class="exp-tag">SQL</span>
+            <span class="exp-tag">Git</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-date">
+          Formación
+          <span class="exp-period">2021 — 2023</span>
+        </div>
+        <div class="exp-content">
+          <div class="exp-role">Técnico Superior en DAM</div>
+          <div class="exp-company">Desarrollo de Aplicaciones Multiplataforma</div>
+          <p class="exp-desc">
+            Formación técnica completa en desarrollo de software multiplataforma. Proyectos de fin de ciclo, prácticas y desarrollo de aplicaciones con Java, bases de datos relacionales, y fundamentos de desarrollo web y móvil.
+          </p>
+          <div class="exp-tags">
+            <span class="exp-tag">Java</span>
+            <span class="exp-tag">Android</span>
+            <span class="exp-tag">SQL</span>
+            <span class="exp-tag">XML</span>
+            <span class="exp-tag">Kotlin</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills-section">
+  <div id="skills" class="section-full">
+    <div class="inner">
+      <div class="skills-header">
+        <div>
+          <div class="s-label reveal">Stack técnico</div>
+          <h2 class="s-title reveal">Tecnologías y <em>herramientas</em></h2>
+        </div>
+        <p class="skills-intro-text reveal">
+          Base sólida en <strong>Java y Android</strong>, con formación activa en el ecosistema de microservicios (Spring Boot, Docker, mensajería). Complementado con Python, JavaScript, Kotlin y buen dominio de bases de datos SQL y NoSQL.
+        </p>
+      </div>
+
+      <div class="skills-categories">
+
+        <div class="reveal">
+          <div class="skill-category-label">Core — Especialidad principal</div>
+          <div class="skills-row">
+            <div class="skill-card">
+              <div class="skill-name">Java</div>
+              <div class="skill-sub">SE 8–21 · Android · Backend</div>
+              <div class="skill-level-row">
+                <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip half"></div>
+              </div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-name">Android SDK</div>
+              <div class="skill-sub">Activities · Fragments · Jetpack · Room · Retrofit</div>
+              <div class="skill-level-row">
+                <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip half"></div>
+              </div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-name">APIs REST</div>
+              <div class="skill-sub">Diseño · Implementación · Integración · Seguridad</div>
+              <div class="skill-level-row">
+                <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip muted"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <div class="skill-category-label">Microservicios & Backend — Crecimiento activo</div>
+          <div class="skills-row">
+            <div class="skill-card">
+              <div class="skill-name">Spring Boot</div>
+              <div class="skill-sub">Spring MVC · Spring Data · Spring Security</div>
+              <div class="skill-level-row">
+                <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip half"></div><div class="skill-pip muted"></div><div class="skill-pip muted"></div>
+              </div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-name">Docker</div>
+              <div class="skill-sub">Contenedores · Docker Compose · imágenes</div>
+              <div class="skill-level-row">
+                <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip muted"></div><div class="skill-pip muted"></div><div class="skill-pip muted"></div>
+              </div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-name">Mensajería</div>
+              <div class="skill-sub">RabbitMQ · Kafka (fundamentos)</div>
+              <div class="skill-level-row">
+                <div class="skill-pip filled"></div><div class="skill-pip half"></div><div class="skill-pip muted"></div><div class="skill-pip muted"></div><div class="skill-pip muted"></div>
+              </div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-name">Maven / Gradle</div>
+              <div class="skill-sub">Gestión de dependencias · Build automation</div>
+              <div class="skill-level-row">
+                <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip muted"></div><div class="skill-pip muted"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <div class="skill-category-label">Bases de datos</div>
+          <div class="skills-row">
+            <div class="skill-card">
+              <div class="skill-name">SQL</div>
+              <div class="skill-sub">MySQL · PostgreSQL · SQLite · diseño de esquemas</div>
+              <div class="skill-level-row">
+                <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip muted"></div>
+              </div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-name">NoSQL</div>
+              <div class="skill-sub">MongoDB · Firebase Realtime DB · Redis</div>
+              <div class="skill-level-row">
+                <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip half"></div><div class="skill-pip muted"></div><div class="skill-pip muted"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <div class="skill-category-label">Otros lenguajes & herramientas</div>
+          <div class="skills-row">
+            <div class="skill-card">
+              <div class="skill-name">Kotlin</div>
+              <div class="skill-sub">Coroutines · Flow · Android KTX</div>
+              <div class="skill-level-row">
+                <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip muted"></div><div class="skill-pip muted"></div>
+              </div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-name">Python</div>
+              <div class="skill-sub">Scripting · automatización · FastAPI</div>
+              <div class="skill-level-row">
+                <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip half"></div><div class="skill-pip muted"></div><div class="skill-pip muted"></div>
+              </div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-name">JavaScript</div>
+              <div class="skill-sub">Web · Node.js · scripting básico</div>
+              <div class="skill-level-row">
+                <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip muted"></div><div class="skill-pip muted"></div><div class="skill-pip muted"></div>
+              </div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-name">Git</div>
+              <div class="skill-sub">GitHub · GitLab · branching · PR reviews</div>
+              <div class="skill-level-row">
+                <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip muted"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects-section">
+  <div class="section-wrap">
+    <div class="projects-header-row reveal">
+      <div>
+        <div class="s-label">Proyectos</div>
+        <h2 class="s-title">Lo que <em>construyo</em></h2>
+      </div>
+      <span class="projects-note">Actualizado progresivamente</span>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- PROYECTO 1 — Ejemplo, sustituir -->
+      <div class="proj-card reveal">
+        <div class="proj-num">001</div>
+        <h3 class="proj-title">Nombre del proyecto</h3>
+        <p class="proj-desc">
+          Descripción breve del proyecto: qué hace, qué problema resuelve, qué tecnologías usa y por qué es relevante. 2–3 frases.
+        </p>
+        <div class="proj-tags">
+          <span class="proj-tag">Java</span>
+          <span class="proj-tag">Spring Boot</span>
+          <span class="proj-tag">REST API</span>
+          <span class="proj-tag">Docker</span>
+        </div>
+        <div class="proj-links">
+          <a href="#" class="proj-link">GitHub <span class="proj-arrow">↗</span></a>
+          <a href="#" class="proj-link">Demo <span class="proj-arrow">↗</span></a>
+        </div>
+      </div>
+
+      <!-- PROYECTO 2 — Placeholder -->
+      <div class="proj-card reveal">
+        <div class="proj-num">002</div>
+        <h3 class="proj-title">Nombre del proyecto</h3>
+        <p class="proj-desc">
+          Descripción breve del proyecto y qué tecnologías emplea.
+        </p>
+        <div class="proj-tags">
+          <span class="proj-tag">Android</span>
+          <span class="proj-tag">Kotlin</span>
+          <span class="proj-tag">Room</span>
+        </div>
+        <div class="proj-links">
+          <a href="#" class="proj-link">GitHub <span class="proj-arrow">↗</span></a>
+        </div>
+      </div>
+
+      <div class="proj-card empty reveal">
+        <div class="empty-plus">+</div>
+        <div class="empty-label">Próximo proyecto</div>
+        <div class="empty-sub">En construcción...</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education-section">
+  <div id="education" class="section-full">
+    <div class="inner">
+      <div class="s-label reveal">Formación</div>
+      <h2 class="s-title reveal">Educación y <em>certificaciones</em></h2>
+      <div class="edu-grid" style="margin-top: 2.5rem;">
+        <div class="edu-card reveal">
+          <div class="edu-year">2021 — 2023</div>
+          <div class="edu-degree">Técnico Superior en Desarrollo de Aplicaciones Multiplataforma</div>
+          <div class="edu-center"><!-- Centro educativo --> IES / Centro de FP, Jaén</div>
+          <p class="edu-desc">Formación en programación Java, Android, bases de datos SQL y NoSQL, XML, fundamentos de desarrollo web y metodologías ágiles.</p>
+        </div>
+        <div class="edu-card reveal">
+          <div class="edu-year">Aprendizaje continuo</div>
+          <div class="edu-degree">Formación autodidacta & certificaciones</div>
+          <div class="edu-center">Plataformas online</div>
+          <p class="edu-desc">Spring Boot y microservicios · Docker · Algoritmos y estructuras de datos · Arquitectura de software. <br><br><!-- Añade aquí tus certificados si los tienes: Udemy, Coursera, Oracle, etc. --></p>
+        </div>
+      </div>
+
+      <div style="margin-top: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+        <div class="edu-card reveal" style="border-top-color: var(--accent-dim);">
+          <div class="edu-year">Idiomas</div>
+          <div class="edu-degree" style="font-size: 1.1rem;">Español</div>
+          <div class="edu-center">Lengua materna</div>
+          <p class="edu-desc">Comunicación escrita y oral a nivel nativo.</p>
+        </div>
+        <div class="edu-card reveal" style="border-top-color: var(--accent);">
+          <div class="edu-year">Idiomas</div>
+          <div class="edu-degree" style="font-size: 1.1rem;">Inglés — B2</div>
+          <div class="edu-center">Upper Intermediate · objetivo C1</div>
+          <p class="edu-desc">Lectura de documentación técnica, comunicación profesional escrita y comprensión oral fluida. Trabajando hacia nivel C1.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact-section">
+  <div class="section-wrap">
+    <div id="contact" class="contact-wrap">
+      <div class="s-label reveal" style="justify-content: center;">Contacto</div>
+      <h2 class="s-title reveal" style="text-align: center;">¿Tienes un proyecto<br>o una <em>oportunidad</em>?</h2>
+      <p class="contact-desc reveal" style="margin-top: 1.25rem;">
+        Abierto a posiciones de desarrollador Java (Android, backend o ambos), colaboraciones y proyectos interesantes. No dudes en escribirme.
+      </p>
+      <a href="mailto:tu@email.com" class="contact-email-link reveal">tu@email.com</a>
+      <div class="socials reveal">
+        <a href="https://github.com/tu-usuario" class="soc-link" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="https://linkedin.com/in/tu-perfil" class="soc-link" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a href="CV_Alfonso_Navio.pdf" class="soc-link" download>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="12" y2="18"/><line x1="15" y1="15" x2="12" y2="18"/></svg>
+          Descargar CV
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-mono">© 2025 <span class="acc">Alfonso Navío Castellano</span> — Jaén, España</span>
+  <span class="footer-mono">Java Developer · Android & Microservicios</span>
+</footer>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50), { passive: true });
+
+  // Typed animation
+  const phrases = [
+    'Android Developer · Java',
+    'Microservicios con Spring Boot',
+    'Fintech & Payment Systems',
+    'Backend Java Engineer',
+    'Kotlin · Python · SQL'
+  ];
+  let pIdx = 0, cIdx = 0, del = false;
+  const el = document.getElementById('typed');
+  function tick() {
+    const p = phrases[pIdx];
+    el.textContent = del ? p.slice(0, --cIdx) : p.slice(0, ++cIdx);
+    if (!del && cIdx === p.length) { del = true; setTimeout(tick, 2000); return; }
+    if (del && cIdx === 0) { del = false; pIdx = (pIdx + 1) % phrases.length; setTimeout(tick, 350); return; }
+    setTimeout(tick, del ? 32 : 62);
+  }
+  tick();
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    let delay = 0;
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.transitionDelay = delay + 'ms';
+        e.target.classList.add('in');
+        obs.unobserve(e.target);
+        delay += 60;
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => obs.observe(r));
+</script>
+</body>
+</html>
