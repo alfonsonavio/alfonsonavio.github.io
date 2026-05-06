@@ -205,14 +205,13 @@ nav.scrolled { background: rgba(11,11,14,0.9); backdrop-filter: blur(16px); bord
 .proj-card { background: var(--surface); border: 1px solid var(--border-soft); padding: 2rem; transition: border-color 0.25s, transform 0.25s; position: relative; overflow: hidden; }
 .proj-card:hover { border-color: var(--accent-dim); transform: translateY(-3px); }
 .proj-card::before { content: ''; position: absolute; inset: 0; background: var(--accent-glow); opacity: 0; transition: opacity 0.3s; }
-.proj-links { position: relative; z-index: 1; }
 .proj-card:hover::before { opacity: 1; }
 .proj-num { font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-dim); letter-spacing: 0.1em; margin-bottom: 0.75rem; }
 .proj-title { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 600; color: var(--text); line-height: 1.25; margin-bottom: 0.75rem; }
 .proj-desc { font-size: 0.9rem; color: var(--muted2); line-height: 1.8; margin-bottom: 1.5rem; }
 .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
 .proj-tag { font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent); border: 1px solid var(--border); padding: 0.18rem 0.55rem; }
-.proj-links { display: flex; gap: 1rem; }
+.proj-links { display: flex; gap: 1rem; position: relative; z-index: 1; }
 .proj-link { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted2); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; display: inline-flex; align-items: center; gap: 0.35rem; }
 .proj-link:hover { color: var(--accent); }
 .proj-arrow { transition: transform 0.2s; }
