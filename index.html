@@ -204,7 +204,7 @@ nav.scrolled { background: rgba(11,11,14,0.9); backdrop-filter: blur(16px); bord
 .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 1.5rem; }
 .proj-card { background: var(--surface); border: 1px solid var(--border-soft); padding: 2rem; transition: border-color 0.25s, transform 0.25s; position: relative; overflow: hidden; }
 .proj-card:hover { border-color: var(--accent-dim); transform: translateY(-3px); }
-.proj-card::before { content: ''; position: absolute; inset: 0; background: var(--accent-glow); opacity: 0; transition: opacity 0.3s; }
+.proj-card::before { content: ''; position: absolute; inset: 0; background: var(--accent-glow); opacity: 0; transition: opacity 0.3s; z-index: 0; }
 .proj-card:hover::before { opacity: 1; }
 .proj-num { font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-dim); letter-spacing: 0.1em; margin-bottom: 0.75rem; }
 .proj-title { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 600; color: var(--text); line-height: 1.25; margin-bottom: 0.75rem; }
